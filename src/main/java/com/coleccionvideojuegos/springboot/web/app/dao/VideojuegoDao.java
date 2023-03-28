@@ -44,7 +44,8 @@ public class VideojuegoDao {
 			   				 + "V.idPlataforma,"
 			   				 + "F.nombre as formato, "
 			   				 + "G.nombre as genero, "
-			   				 + "P.nombre as plataforma "
+			   				 + "P.nombre as plataforma, "
+			   				 + "P.compania as compania "
 			   				 + "FROM ((videojuegos V inner join formatosVideojuegos F on F.id = V.idFormato) "
 			   				 + "inner join generosVideojuegos G on G.id=V.idGenero) "
 			   				 + "inner join plataformasVideojuegos P on P.id = V.idPlataforma ";
@@ -91,12 +92,9 @@ public class VideojuegoDao {
 		      while (rs.next()) {
 		    	  lstVideojuegos.add(new Videojuego(rs.getLong("id"), 
 		    			  							rs.getString("nombre"), 
-		    			  							rs.getLong("idPlataforma"),		    			  							
-		    			  							rs.getLong("idGenero"),
-		    			  							rs.getLong("idFormato"),
-		    			  							rs.getString("plataforma"),
-		    			  							rs.getString("genero"),
-		    			  							rs.getString("formato")
+		    			  							new Plataforma(rs.getLong("idPlataforma"),rs.getString("plataforma"), rs.getString("compania")),
+		    			  							new Genero(rs.getLong("idGenero"),rs.getString("genero")),
+		    			  							new Formato(rs.getLong("idFormato"),rs.getString("formato"))
 		    			  							)
 		    			  			);
 		        
@@ -135,7 +133,7 @@ public class VideojuegoDao {
 		      final ResultSet rs = ps.executeQuery();
 		      
 		      while (rs.next()) {
-		    	  lst.add(new Plataforma(rs.getLong("id"), rs.getString("nombre"), rs.getString("compañia")));	        
+		    	  lst.add(new Plataforma(rs.getLong("id"), rs.getString("nombre"), rs.getString("compania")));	        
 		      }
 		      
 		      
@@ -247,24 +245,21 @@ public class VideojuegoDao {
 			   				 + "V.idPlataforma,"
 			   				 + "F.nombre as formato, "
 			   				 + "G.nombre as genero, "
-			   				 + "P.nombre as plataforma "
+			   				 + "P.nombre as plataforma, "
+			   				 + "P.compania as compania "
 			   				 + "FROM ((videojuegos V inner join formatosVideojuegos F on F.id = V.idFormato) "
 			   				 + "inner join generosVideojuegos G on G.id=V.idGenero) "
 			   				 + "inner join plataformasVideojuegos P on P.id = V.idPlataforma "
-			   				 + "WHERE V.id = " + idVideojuego;
-		      log.info("SQL: " + SQL); 		      
+			   				 + "WHERE V.id = " + idVideojuego;   
 		      PreparedStatement ps = conn.prepareStatement(SQL);
 		      final ResultSet rs = ps.executeQuery();
 		      
 		      if (rs.next()) {
 		    	  videojuego = new Videojuego(rs.getLong("id"), 
     			  							  rs.getString("nombre"), 
-    			  							  rs.getLong("idPlataforma"),		    			  							
-    			  							  rs.getLong("idGenero"),
-    			  							  rs.getLong("idFormato"),
-    			  							  rs.getString("plataforma"),
-    			  							  rs.getString("genero"),
-    			  							  rs.getString("formato")
+    			  							  new Plataforma(rs.getLong("idPlataforma"), rs.getString("plataforma"), rs.getString("compania")),
+    			  							  new Genero(rs.getLong("idGenero"), rs.getString("genero")),
+    			  							  new Formato(rs.getLong("idFormato"), rs.getString("formato"))    			  							  
     			  							  );
 		      }
 		      
@@ -299,25 +294,23 @@ public class VideojuegoDao {
 	    final Statement stmt = conn.createStatement();
 	    
 	    if (operacion.equals("INSERT")) {
-		    query = "INSERT INTO VIDEOJUEGOS (nombre, idPlataforma, idGenero, idFormato) VALUES ('" + videojuego.nombre + "', " + videojuego.idPlataforma + ", " + videojuego.idGenero + ", " + videojuego.idFormato + ")";		    	   
+		    query = "INSERT INTO VIDEOJUEGOS (nombre, idPlataforma, idGenero, idFormato) VALUES ('" + videojuego.nombre + "', " + videojuego.plataforma.id + ", " + videojuego.genero.id + ", " + videojuego.formato.id + ")";		    	   
 	    } else {
 	    	query = "UPDATE VIDEOJUEGOS SET "
 	    				 + "nombre = '" + videojuego.nombre + "', "
-	    				 + "idPlataforma = " + videojuego.idPlataforma + ", "
-	    				 + "idGenero = " + videojuego.idGenero + ", "
-	    				 + "idFormato = " + videojuego.idFormato 
+	    				 + "idPlataforma = " + videojuego.plataforma.id + ", "
+	    				 + "idGenero = " + videojuego.genero.id + ", "
+	    				 + "idFormato = " + videojuego.formato.id 
 	    				 + " WHERE id = " + videojuego.id;
 	    }
 	    
-	    log.info("query: " + query);
-	    
 	    try{
-	        stmt.executeUpdate(query);
-	        //conn.commit();	        
+	        stmt.executeUpdate(query);   
 	        stmt.close();
 	        conn.close();
 	    } catch(SQLException sqle) {
 	        log.error("guardarVideojuego - ERROR DE SQL: " + sqle);
+	        return null;
 	    }	    
 	    
 	    return videojuego;
@@ -341,8 +334,7 @@ public class VideojuegoDao {
 	    log.info("query: " + query);
 	    
 	    try{
-	        stmt.executeUpdate(query);
-	        //conn.commit();	        
+	        stmt.executeUpdate(query);    
 	        stmt.close();
 	        conn.close();
 	        

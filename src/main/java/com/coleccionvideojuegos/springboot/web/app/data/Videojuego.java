@@ -5,13 +5,38 @@ public class Videojuego {
 
 	public Long id;
 	public String nombre;
+	public Plataforma plataforma;
+	public Genero genero;
+	public Formato formato;
+	
+	
+	/**
+	 * CONSTRUCTOR
+	 * @param id
+	 * @param nombre
+	 * @param plataforma
+	 * @param genero
+	 * @param formato
+	 */
+	public Videojuego(Long id, String nombre, Plataforma plataforma, Genero genero, Formato formato) {
+		this.id = id;
+		this.nombre = nombre;
+		this.plataforma = plataforma;
+		this.genero = genero;
+		this.formato = formato;
+	}
+	
+	
+	
+	
+	/*
 	public Long idPlataforma;
 	public Long idFormato;
 	public Long idGenero;	
 	public String plataforma;
 	public String formato;
 	public String genero;
-	
+	*/
 	
 	
 	/**
@@ -21,7 +46,7 @@ public class Videojuego {
 	 * @param idPlataforma
 	 * @param idFormato
 	 * @param idGenero
-	 */
+	 
 	public Videojuego(Long id, String nombre, Long idPlataforma, Long idGenero, Long idFormato) {
 		this.id = id;
 		this.nombre = nombre;
@@ -35,7 +60,7 @@ public class Videojuego {
 	}
 
 
-	/**
+	
 	 * CONSTRUCTOR COMPLETO	
 	 * @param id
 	 * @param nombre
@@ -45,7 +70,7 @@ public class Videojuego {
 	 * @param plataforma
 	 * @param formato
 	 * @param genero
-	 */
+	 
 	public Videojuego(Long id, String nombre, Long idPlataforma, Long idGenero, Long idFormato,
 			String plataforma, String genero, String formato) {
 		this.id = id;
@@ -59,6 +84,6 @@ public class Videojuego {
 	}
 	
 	
-	
+	*/
 
 }

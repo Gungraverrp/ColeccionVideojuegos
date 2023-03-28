@@ -153,12 +153,12 @@ function cargarVideojuegos(idPlataforma, idGenero, idFormato, nombre){
 			tabla.row.add({
 			"id": item.id,
 			"nombre": item.nombre,
-			"idPlataforma":item.idPlataforma,
-			"plataforma": item.plataforma,
-			"idGenero": item.idGenero,
-			"genero": item.genero,
-			"idFormato": item.idFormato,
-			"formato": item.formato	
+			"idPlataforma":item.plataforma.id,
+			"plataforma": item.plataforma.nombre,
+			"idGenero": item.genero.id,
+			"genero": item.genero.nombre,
+			"idFormato": item.formato.id,
+			"formato": item.formato.nombre	
 			});
   		})
   		

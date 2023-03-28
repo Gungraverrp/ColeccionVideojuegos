@@ -55,7 +55,12 @@ public class VideojuegoController extends AbstractController {
 	 }
 	 
 	 
-	 
+	 /**
+	  * OBTIENE UN VIDEOJUEGO POR SU ID
+	  * @param idVideojuego
+	  * @return
+	  * @throws Exception
+	  */
 	 @GetMapping("/getVideojuego")
 	 @ResponseBody
 	 public String getVideojuego(@RequestParam(name = "idVideojuego") String idVideojuego) throws Exception {
@@ -155,8 +160,12 @@ public class VideojuegoController extends AbstractController {
 	    
 	    try {
 	    	Videojuego videojuego = _gson.fromJson(content, Videojuego.class);	         
-	    	videojuego = VideojuegoService.guardarVideojuego(operacion, videojuego);	        
-	    	return _gson.toJson(new JsonData(videojuego, "OK"));
+	    	videojuego = VideojuegoService.guardarVideojuego(operacion, videojuego);	
+	    	if (videojuego != null) {
+	    		return _gson.toJson(new JsonData(videojuego, "OK"));
+	    	} else {
+	    		return _gson.toJson(new JsonData(null, "Error: Hay algún error.\nNo se ha podido guardar el videojuego."));
+	    	}
 	    } catch (Exception e) {
 	        log.error("Error al guardar un videojuego: ", e);
 	        return _gson.toJson(new JsonData("", "Error: Error al modificar el videojuego"));
@@ -165,8 +174,8 @@ public class VideojuegoController extends AbstractController {
 	  
 	
 	
-	/** BORRA UN VIDEOJUEGO
-	 * 
+	/** 
+	 * BORRA UN VIDEOJUEGO
 	 * @param idVideojuego
 	 * @return
 	 * @throws Exception

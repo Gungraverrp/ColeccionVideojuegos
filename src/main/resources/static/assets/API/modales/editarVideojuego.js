@@ -29,9 +29,9 @@ function getVideojuego(idVideojuego){
 			$("#EV-id").val(idVideojuego);
 			$("#EV-operacion").val("UPDATE");
 			$("#EV-nombre").val(content.data.nombre);
-			$("#EV-select-plataforma").val(content.data.idPlataforma);
-			$("#EV-select-genero").val(content.data.idGenero);
-			$("#EV-select-formato").val(content.data.idFormato);
+			$("#EV-select-plataforma").val(content.data.plataforma.id);
+			$("#EV-select-genero").val(content.data.genero.id);
+			$("#EV-select-formato").val(content.data.formato.id);
 		} else {
 			alert("NO SE HA ENCONTRADO NINGÚN VIDEOJUEGO CON EL ID " + idVideojuego);
 		}	
@@ -71,7 +71,7 @@ function EVcargarNombres(){
   }).then((content) => {
 	  	$('#EV-datalistNombres').empty();
 	  	content.data.forEach(function(item) {
-			$('#EV-datalistNombres').append('<option data-value='+ item.id +'>'+ item.nombre +'</option>');
+			$('#EV-datalistNombres').append('<option data-value='+ item.id +'>'+ item.nombre + ' (' + item.plataforma.nombre + ')' + '</option>');
   		})
   })
 };
@@ -138,38 +138,59 @@ function EVcargarSelectFormatos(){
  * GUARDAR LOS CAMBIOS
  */
 function guardar(){
-	 var operacion = $("#EV-operacion").val();
 	
-	 var xhr = new XMLHttpRequest();
-	 xhr.open("POST", 'guardarVideojuego?operacion=' + operacion, true);
-	 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-	 xhr.onreadystatechange = function () {
-	   if (xhr.readyState === 4 && xhr.status === 200) {
-		     if (xhr.responseText.indexOf("Error") != -1) {
-		       var jsonResponse = JSON.parse(xhr.responseText.replace("Error: ", ""));
-		       alert(jsonResponse);
-		     } else {
-		       cargarDatatableVideojuegos(); //ESTA FUNCIÓN ESTÁ EN INDEX.JS
-		       //$("#editarVideojuego").modal("hide");
-		       EVcargarNombres();
-		       
-		       cargarModalNuevo();
-		       $("#EV-select-plataforma").val(14);
-		       $("#EV-select-formato").val(2);
-		     }
-	   }
-	 };
-	 
-	 var params={
-     "id": $("#EV-id").val(),
-     "nombre": $("#EV-nombre").val(),
-     "idPlataforma": $("#EV-select-plataforma").val(),
-     "idGenero": $("#EV-select-genero").val(),
-     "idFormato": $("#EV-select-formato").val()
-     }                          
-     xhr.send(JSON.stringify(params)); 
-     
-      
+	var validado = true;
+	
+	//COMPRBAMOS SI HAY ALGÚN CONTROL QUE NO SE HAYA INTRODUCIDO CORRECTAMENTE
+	//BUSCANDO CUALQUIER CONTROL CON LA CLASE :invalid
+	 $(":invalid").each(function() {
+      validado = false;
+    });
+
+	
+	if (validado == true) {
+		 var operacion = $("#EV-operacion").val();
+		
+		 var xhr = new XMLHttpRequest();
+		 xhr.open("POST", 'guardarVideojuego?operacion=' + operacion, true);
+		 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		 xhr.onreadystatechange = function () {
+		   if (xhr.readyState === 4 && xhr.status === 200) {
+			     if (xhr.responseText.indexOf("Error") != -1) {
+				  alert("ERROR: No se ha podido registar el videojuego. Por favor, revise los datos introducidos.");
+			     } else {
+			       cargarDatatableVideojuegos(); //ESTA FUNCIÓN ESTÁ EN INDEX.JS
+			       EVcargarNombres();			       
+			     }
+		   }
+		 };
+		 
+		 var plataforma = {
+			 "id": $("#EV-select-plataforma").val(),
+			 "nombre": $("#EV-select-plataforma").text(),
+			 "compania": null
+		 }
+		 
+		 var genero = {
+			 "id":$("#EV-select-genero").val(),
+			 "nombre": $("#EV-select-genero").text()
+		 }
+		 
+		 var formato = {
+			 "id": $("#EV-select-formato").val(),
+			 "nombre": $("#EV-select-formato").text()
+		 }
+		 
+		 var params={
+		     "id": $("#EV-id").val(),
+		     "nombre": $("#EV-nombre").val(),
+		     "plataforma": plataforma,
+		     "genero": genero,
+		     "formato": formato
+	     }                  
+	             
+	     xhr.send(JSON.stringify(params)); 
+	  }   	
 }
 	
 	
