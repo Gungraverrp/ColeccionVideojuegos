@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<div th:fragment="editarVideojuego" id="editarVideojuego"
+class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" 
+aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+
+<div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content">	
+	        	<div class="modal-header">
+		            <h6 class="modal-title" id="tituloModal"></h6>
+		            <button type="button" class="close" data-bs-dismiss="modal" style="border: none;"><span>&times;</span></button>
+		        </div>
+		        
+	        	<form id="EV-form" class="row g-3 needs-validation" onsubmit="return guardar()" novalidate>
+		            
+		            <div class="modal-body">
+						<input type="hidden" class="form-control" id="EV-id" value="" />
+						<input type="hidden" class="form-control" id="EV-operacion" value="" />
+						
+						<div class="form-row" style="margin-bottom: 5px;">
+							<label class="form-label">Título:</label>
+							<input type="text" id="EV-nombre" maxlength="120" class="form-control" list="EV-datalistNombres" value="" placeholder="Título" required/>
+							<datalist id="EV-datalistNombres" name="EV-datalistNombres">
+							</datalist>
+						</div>
+						<div class="form-row" style="margin-bottom: 5px;">
+							<label class="form-label">Plataforma:</label>
+							<select id="EV-select-plataforma" class="form-select" required>
+							</select>
+						</div>
+						<div class="form-row" style="margin-bottom: 5px;">
+							<label class="form-label">Género:</label>
+							<select id="EV-select-genero" class="form-select" required>
+							</select>
+						</div>
+						<div class="form-row" style="margin-bottom: 5px;">
+							<label class="form-label">Formato:</label>
+							<select id="EV-select-formato" class="form-select" required>
+							</select>
+						</div>
+						
+		            </div>
+		            
+		            
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+		                <button type="submit" class="btn btn-primary btn-guardar">Guardar</button>
+		            </div>
+	            </form>
+	        </div>
+	    </div>				
+</div>
+
+</body>
+</html>

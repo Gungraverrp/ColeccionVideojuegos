@@ -1,0 +1,15 @@
+com\coleccionvideojuegos\springboot\web\app\dao\VideojuegoDao.class
+com\coleccionvideojuegos\springboot\web\app\ColeccionVideojuegosApplication.class
+com\coleccionvideojuegos\springboot\web\app\controllers\ViewController.class
+com\coleccionvideojuegos\springboot\web\app\data\Formato.class
+com\coleccionvideojuegos\springboot\web\app\controllers\VideojuegoController.class
+com\coleccionvideojuegos\springboot\web\app\managers\AbstractManager.class
+com\coleccionvideojuegos\springboot\web\app\controllers\AbstractController.class
+com\coleccionvideojuegos\springboot\web\app\managers\MySQLManager.class
+com\coleccionvideojuegos\springboot\web\app\data\Videojuego.class
+com\coleccionvideojuegos\springboot\web\app\model\JsonData.class
+com\coleccionvideojuegos\springboot\web\app\utils\Common.class
+com\coleccionvideojuegos\springboot\web\app\data\Genero.class
+com\coleccionvideojuegos\springboot\web\app\data\Plataforma.class
+com\coleccionvideojuegos\springboot\web\app\data\AbstractData.class
+com\coleccionvideojuegos\springboot\web\app\services\VideojuegoService.class
